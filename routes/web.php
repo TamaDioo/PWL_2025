@@ -1,18 +1,22 @@
 <?php
 
+use App\Http\Controllers\WelcomeController;
+// use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AboutController;
+use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\PhotoController;
 
-Route::get('/hello', function () {
-    return 'Hello World';
-});
+Route::resource('photos', PhotoController::class);
+Route::get('/', HomeController::class);
+Route::get('/about', AboutController::class);
+Route::get('/articles/{id}', ArticleController::class);
+
+Route::get('/hello', [WelcomeController::class, 'hello']);
 
 Route::get('/world', function () {
     return 'World';
-});
-
-Route::get('/about', function () {
-    return 'NIM: 2341720098 <br> 
-            Nama: Dio Andika Pradana Mulia Tama';
 });
 
 Route::get('/user/{name}', function ($name) {
@@ -24,14 +28,19 @@ Route::get('/posts/{post}/comments/{comment}', function
     return 'Pos ke-'.$postId." Komentar ke-: ".$commentId;
 });
 
-Route::get('/articles/{id}', function ($id) {
-    return 'Halaman Artikel dengan ID '. $id;
-});
-
 Route::get('/user/{name?}', function ($name='John') {
     return 'Nama saya '.$name;
 });
 
+Route::resource('photos', PhotoController::class)->only([
+    'index', 'show'
+]);
+
+Route::resource('photos', PhotoController::class)->except([
+    'create', 'store', 'update', 'destroy'
+]);
+
+/*
 // Contoh Route Name:
 Route::get('/user/profile', function () {
     //
@@ -47,6 +56,7 @@ $url = route('profile');
 
 // Generating Redirects...
 return redirect()->route('profile');
+*/
 
 /*
 |--------------------------------------------------------------------------
@@ -64,10 +74,6 @@ return redirect()->route('profile');
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-
-Route::get('/', function () {
-    return 'Selamat Datang';
-});
 
 /* 
 // Contoh Route Group:
@@ -103,9 +109,11 @@ Route::prefix('admin')->group(function () {
 });
 */
 
+/*
 //Contoh Redirect Routes
 Route::redirect('/here', '/there');
 
 // Contoh View Routes
 Route::view('/welcome', 'welcome');
 Route::view('/welcome', 'welcome', ['name' => 'Taylor']);
+*/
