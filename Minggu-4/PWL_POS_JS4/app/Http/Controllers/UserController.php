@@ -12,8 +12,13 @@ class UserController extends Controller
 
     public function index()
     {
-        $user = UserModel::all();
+        $user = UserModel::with('level')->get();
         return view('user', ['data' => $user]);
+        // dd($user);
+
+        // Praktikum 2.6
+        // $user = UserModel::all();
+        // return view('user', ['data' => $user]);
 
         /*Praktikum 2.5
         $user = UserModel::create([
