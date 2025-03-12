@@ -215,7 +215,7 @@ class UserController extends Controller
 
         $user->username = $request->username;
         $user->nama = $request->nama;
-        $user->password = Hash::make('$request->password');
+        $user->password = Hash::make($request->password); // Tanda kutip '' dihilangkan agar $request->password tidak dianggap sebagai string literal 
         $user->level_id = $request->level_id;
 
         $user->save();
