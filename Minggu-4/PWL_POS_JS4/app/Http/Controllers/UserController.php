@@ -196,7 +196,7 @@ class UserController extends Controller
         UserModel::create([
             'username' => $request->username,
             'nama' => $request->nama,
-            'password' => Hash::make('$request->password'),
+            'password' => Hash::make($request->password), // Tanda kutip '' dihilangkan agar $request->password tidak dianggap sebagai string literal 
             'level_id' => $request->level_id,
         ]);
 
