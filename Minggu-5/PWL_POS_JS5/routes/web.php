@@ -26,9 +26,9 @@ Route::get('/user/{id}/name/{name}', [UserController::class, 'profile'])->name('
 Route::get('/sales', [SalesController::class, 'index'])->name('sales');
 
 // Route di bawah ini harus dinonaktifkan agar tidak konflik dengan route untuk halaman home
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('/', function () {
+    return view('welcome');
+});
 
 Route::get('/level', [LevelController::class, 'index']);
 Route::get('/kategori', [KategoriController::class, 'index']);
