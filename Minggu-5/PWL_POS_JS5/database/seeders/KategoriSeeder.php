@@ -16,6 +16,7 @@ class KategoriSeeder extends Seeder
             // ['kategori_id' => 3, 'kategori_kode' => 'FOOD', 'kategori_nama' => 'Makanan'],
             // ['kategori_id' => 4, 'kategori_kode' => 'BVRG', 'kategori_nama' => 'Minuman'],
             // ['kategori_id' => 5, 'kategori_kode' => 'BOOK', 'kategori_nama' => 'Buku'],
+            // Menambah data untuk Praktikum 2 Jobsheet 5
             ['kategori_id' => 6, 'kategori_kode' => 'CML', 'kategori_nama' => 'Cemilan', 'created_at' => now()],
             ['kategori_id' => 7, 'kategori_kode' => 'MNR', 'kategori_nama' => 'Minuman Ringan', 'created_at' => now()],
         ];
