@@ -60,4 +60,12 @@ class KategoriController extends Controller
         ]);
         return redirect('/kategori')->with('success', 'Data kategori berhasil diupdate');
     }
+
+    public function destroy($id)
+    {
+        $kategori = KategoriModel::findOrFail($id);
+        $kategori->delete();
+
+        return redirect('/kategori')->with('success', 'Data kategori berhasil dihapus');
+    }
 }

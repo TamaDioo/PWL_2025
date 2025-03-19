@@ -24,7 +24,14 @@ class KategoriDataTable extends DataTable
         return (new EloquentDataTable($query))
             /* ->addColumn('action', 'kategori.action') */
             ->addColumn('action', function ($row) {
-                return '<a href="' . url('/kategori/edit/' . $row->kategori_id) . '" class="btn btn-warning btn-sm">Edit</a>';
+                return '
+                    <a href="' . url('/kategori/edit/' . $row->kategori_id) . '" class="btn btn-warning btn-sm">Edit</a>
+                    <form action="' . route('kategori.destroy', $row->kategori_id) . ' method="POST" style="display:inline;">
+                        ' . csrf_field() . '
+                        ' . method_field('DELETE') . '
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm(\'Apakah Anda yakin ingin menghapus kategori ini?\')">Delete</button>
+                    </form>
+                ';
             })
             ->rawColumns(['action'])
             ->setRowId('kategori_id');
@@ -74,7 +81,7 @@ class KategoriDataTable extends DataTable
             Column::computed('action') // Menambahkan kolom action
                 ->exportable(false)
                 ->printable(false)
-                ->width(60)
+                ->width(140) // Width perlu ditambahkan agar cukup untuk tombol edit dan delete
                 ->addClass('text-center')
                 ->title('Action'),
         ];
