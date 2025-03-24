@@ -26,9 +26,9 @@ Route::get('/user/{id}/name/{name}', [UserController::class, 'profile'])->name('
 Route::get('/sales', [SalesController::class, 'index'])->name('sales');
 
 // Route di bawah ini harus dinonaktifkan agar tidak konflik dengan route untuk halaman home
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Route::get('/level', [LevelController::class, 'index']);
 Route::get('/kategori', [KategoriController::class, 'index']);
@@ -38,8 +38,3 @@ Route::post('/user/tambah_simpan', [UserController::class, 'tambah_simpan']);
 Route::get('/user/ubah/{id}', [UserController::class, 'ubah']);
 Route::put('/user/ubah_simpan/{id}', [UserController::class, 'ubah_simpan']);
 Route::get('/user/hapus/{id}', [UserController::class, 'hapus']);
-Route::get('/kategori/create', [KategoriController::class, 'create']);
-Route::post('/kategori', [KategoriController::class, 'store']);
-Route::get('/kategori/edit/{id}', [KategoriController::class, 'edit']);
-Route::put('/kategori/update/{id}', [KategoriController::class, 'update']);
-Route::get('/kategori/delete/{id}', [KategoriController::class, 'destroy'])->name('kategori.destroy');
