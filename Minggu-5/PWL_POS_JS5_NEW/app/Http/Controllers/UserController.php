@@ -24,7 +24,9 @@ class UserController extends Controller
 
         $activeMenu = 'user'; // set menu yang sedang aktif
 
-        return view('user.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
+        $level = LevelModel::all(); // ambil data level untuk filter level 
+
+        return view('user.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'level' => $level, 'activeMenu' => $activeMenu]);
         // $user = UserModel::with('level')->get();
         // return view('user', ['data' => $user]);
         // dd($user); // Praktikum 2.7 Langkah 1
@@ -204,6 +206,11 @@ class UserController extends Controller
     {
         $users = UserModel::select('user_id', 'username', 'nama', 'level_id')
             ->with('level'); // Relasi ke tabel level
+
+        // Filter data user berdasarkan level_id
+        if ($request->level_id) {
+            $users->where('level_id', $request->level_id);
+        }
 
         return DataTables::of($users)
             // menambahkan kolom index / no urut (default nama kolom: DT_Rowindex)
