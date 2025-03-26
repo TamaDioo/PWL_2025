@@ -33,20 +33,13 @@ class LevelController extends Controller
 
         $activeMenu = 'level'; // set menu yang sedang aktif
 
-        $level = LevelModel::all(); // ambil data level untuk filter level 
-
-        return view('level.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'level' => $level, 'activeMenu' => $activeMenu]);
+        return view('level.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
     }
 
     // Ambil data level dalam bentuk json untuk datatables
     public function list(Request $request)
     {
         $levels = LevelModel::select('level_id', 'level_kode', 'level_nama');
-
-        // Filter data level 
-        if ($request->level_id) {
-            $levels->where('level_id', $request->level_id);
-        }
 
         return DataTables::of($levels)
             // menambahkan kolom index / no urut (default nama kolom: DT_Rowindex)
@@ -158,7 +151,7 @@ class LevelController extends Controller
     public function destroy(string $id)
     {
         $check = LevelModel::find($id);
-        if (!$check) {      // untuk mengecek apakah data user dengan id yang dimaksud ada atau tidak 
+        if (!$check) {      // untuk mengecek apakah data level dengan id yang dimaksud ada atau tidak 
             return redirect('/level')->with('error', 'Data level tidak ditemukan');
         }
 
