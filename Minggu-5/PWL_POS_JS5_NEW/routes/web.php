@@ -22,6 +22,17 @@ Route::group(['prefix' => 'user'], function () {
     Route::delete('/{id}', [UserController::class, 'destroy']); // menghapus data user
 });
 
+Route::group(['prefix' => 'level'], function () {
+    Route::get('/', [LevelController::class, 'index']);          // menampilkan halaman awal user
+    Route::post('/list', [LevelController::class, 'list']);      // menampilkan data user untuk datatables (JSON)
+    Route::get('/create', [LevelController::class, 'create']);   // menampilkan halaman form tambah user
+    Route::post('/', [LevelController::class, 'store']);         // menyimpan data user baru
+    Route::get('/{id}', [LevelController::class, 'show']);       // manampilkan detail user
+    Route::get('/{id}/edit', [LevelController::class, 'edit']);  // menampilkan halaman form edit user
+    Route::put('/{id}', [LevelController::class, 'update']);     // menyimpan perubahan data user
+    Route::delete('/{id}', [LevelController::class, 'destroy']); // menghapus data user
+});
+
 // Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // Route untuk Halaman Products menggunakan Route Prefix
