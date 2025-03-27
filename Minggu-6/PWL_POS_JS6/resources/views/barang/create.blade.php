@@ -34,7 +34,7 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-1 control-label col-form-label">barang_nama</label>
+                    <label class="col-1 control-label col-form-label">Nama Barang</label>
                     <div class="col-11">
                         <input type="text" class="form-control" id="barang_nama" name="barang_nama" value="{{
                         old('barang_nama') }}" required>
@@ -44,7 +44,7 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-1 control-label col-form-label">harga_beli</label>
+                    <label class="col-1 control-label col-form-label">Harga Beli</label>
                     <div class="col-11">
                         <input type="text" class="form-control" id="harga_beli" name="harga_beli" value="{{
                         old('harga_beli') }}" required>
@@ -54,7 +54,7 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-1 control-label col-form-label">harga_jual</label>
+                    <label class="col-1 control-label col-form-label">Harga Jual</label>
                     <div class="col-11">
                         <input type="text" class="form-control" id="harga_jual" name="harga_jual" value="{{
                         old('harga_jual') }}" required>
