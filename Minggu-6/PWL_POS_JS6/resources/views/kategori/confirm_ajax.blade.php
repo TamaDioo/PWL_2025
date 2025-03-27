@@ -1,4 +1,4 @@
-@empty($level)
+@empty($kategori)
     <div id="modal-master" class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -8,60 +8,54 @@
             <div class="modal-body">
                 <div class="alert alert-danger">
                     <h5><i class="icon fas fa-ban"></i> Kesalahan!!!</h5> Data yang anda cari tidak ditemukan</div>
-                <a href="{{ url('/level') }}" class="btn btn-warning">Kembali</a>
+                <a href="{{ url('/kategori') }}" class="btn btn-warning">Kembali</a>
             </div>
         </div>
     </div>
 @else
-    <form action="{{ url('/level/' . $level->level_id.'/update_ajax') }}" method="POST" id="form-edit">
+    <form action="{{ url('/kategori/' . $kategori->kategori_id.'/delete_ajax') }}" method="POST" id="form-delete">
     @csrf
-    @method('PUT')
+    @method('DELETE')
     <div id="modal-master" class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Edit Data Level</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Hapus Data Kategori</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
-                <div class="form-group">
-                    <label>Kode Level</label>
-                    <input value="{{ $level->level_kode }}" type="text" name="level_kode" id="level_kode" class="form-control" required>
-                    <small id="error-level_kode" class="error-text form-text text-danger"></small>
+                <div class="alert alert-warning">
+                    <h5><i class="icon fas fa-ban"></i> Konfirmasi !!!</h5> Apakah Anda ingin menghapus data kategori di bawah ini?
                 </div>
-                <div class="form-group">
-                    <label>Nama Level</label>
-                    <input value="{{ $level->level_nama }}" type="text" name="level_nama" id="level_nama" class="form-control" required>
-                    <small id="error-level_nama" class="error-text form-text text-danger"></small>
-                </div>
+                <table class="table table-sm table-bordered table-striped">
+                    <tr><th class="text-right col-3">Kode kategori :</th><td class="col-9">{{ $kategori->kategori_kode }}</td></tr>
+                    <tr><th class="text-right col-3">Nama kategori:</th><td class="col-9">{{ $kategori->kategori_nama }}</td></tr>
+                </table>
             </div>
             <div class="modal-footer">
                 <button type="button" data-dismiss="modal" class="btn btn-warning">Batal</button>
-                <button type="submit" class="btn btn-primary">Simpan</button>
+                <button type="submit" class="btn btn-primary">Ya, Hapus</button>
             </div>
         </div>
     </div>
     </form>
-    <script>    
+    <script>
         $(document).ready(function() {
-            $("#form-edit").validate({
-                rules: {
-                    level_kode: {required: true, minlength: 3, maxlength: 10},
-                    level_nama: {required: true, minlength: 3, maxlength: 100}
-                },
+            $("#form-delete").validate({
+                rules: {},
                 submitHandler: function(form) {
                     $.ajax({
                         url: form.action,
                         type: form.method,
                         data: $(form).serialize(),
                         success: function(response) {
-                            if(response.status) {
+                            if (response.status) {
                                 $('#myModal').modal('hide');
                                 Swal.fire({
                                     icon: 'success',
                                     title: 'Berhasil',
                                     text: response.message
                                 });
-                                dataLevel.ajax.reload();
+                                dataKategori.ajax.reload();
                             } else {
                                 $('.error-text').text('');
                                 $.each(response.msgField, function(prefix, val) {
@@ -91,4 +85,4 @@
             });
         });
     </script>
-@endempty           
+@endempty

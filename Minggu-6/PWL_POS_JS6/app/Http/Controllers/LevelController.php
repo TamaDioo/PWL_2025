@@ -87,12 +87,12 @@ class LevelController extends Controller
         // level_kode harus diisi, berupa string, minimal 3 karakter, dan bernilai unik di tabel m_level kolom level_kode
         $request->validate([
             'level_kode' => 'required|string|min:3|unique:m_level,level_kode',
-            'level_nama'     => 'required|string|max:100', // nama level harus diisi, berupa string, dan maksimal 100 karakter
+            'level_nama'     => 'required|string|max:100' // nama level harus diisi, berupa string, dan maksimal 100 karakter
         ]);
 
         LevelModel::create([
             'level_kode' => $request->level_kode,
-            'level_nama' => $request->level_nama,
+            'level_nama' => $request->level_nama
         ]);
 
         return redirect('/level')->with('success', 'Data level berhasil disimpan');
@@ -143,7 +143,7 @@ class LevelController extends Controller
             // level_kode harus diisi, minimal 3 karakter,
             // dan bernilai unik di tabel m_level kolom kode_level kecuali untuk level dengan id yang sedang diedit
             'level_kode' => 'required|string|min:3|unique:m_level,level_kode,' . $id . ',level_id',
-            'level_nama' => 'required|string|max:100', // nama harus diisi, berupa string, dan maksimal 100 karakter
+            'level_nama' => 'required|string|max:100' // nama harus diisi, berupa string, dan maksimal 100 karakter
         ]);
 
         LevelModel::find($id)->update([
@@ -221,7 +221,7 @@ class LevelController extends Controller
         if ($request->ajax() || $request->wantsJson()) {
             $rules = [
                 'level_kode' => 'required|max:10|unique:m_level,level_kode,' . $id . ',level_id',
-                'level_nama' => 'required|max:100',
+                'level_nama' => 'required|max:100'
             ];
             //  use Illuminate\Support\Facades\Validator;
             $validator = Validator::make($request->all(), $rules);
@@ -236,9 +236,6 @@ class LevelController extends Controller
 
             $check = LevelModel::find($id);
             if ($check) {
-                if (!$request->filled('password')) { // jika password tidak diisi, maka hapus dari request
-                    $request->request->remove('password');
-                }
                 $check->update($request->all());
                 return response()->json([
                     'status' => true,

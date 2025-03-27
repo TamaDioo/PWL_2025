@@ -44,7 +44,7 @@
                 ajax: {
                     "url": "{{ url('level/list') }}",
                     "dataType": "json",
-                    "type": "POST",
+                    "type": "POST"
                 },
                 columns: [
                     {
