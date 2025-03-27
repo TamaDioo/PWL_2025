@@ -30,7 +30,7 @@
 @push('js')
     <script>
         $(document).ready(function() {
-            var dataLevel = $('#table_supplier').DataTable({
+            var dataSupplier = $('#table_supplier').DataTable({
                 // serverSide: true, jika ingin menggunakan server side processing
                 serverSide: true,
                 ajax: {
