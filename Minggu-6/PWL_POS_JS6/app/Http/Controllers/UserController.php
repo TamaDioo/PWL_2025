@@ -360,7 +360,6 @@ class UserController extends Controller
     {
         // cek apakah request berupa ajax
         if ($request->ajax() || $request->wantsJson()) {
-            dd($request->all());
             $rules = [
                 'level_id' => 'required|integer',
                 'username' => 'required|string|min:3|unique:m_user,username',
