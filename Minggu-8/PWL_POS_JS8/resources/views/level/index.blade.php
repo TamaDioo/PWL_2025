@@ -3,10 +3,11 @@
 @section('content')
     <div class="card card-outline card-primary">
         <div class="card-header">
-            <h3 class="card-title">{{ $page->title }}</h3>
+            <h3 class="card-title">Daftar Level</h3>
             <div class="card-tools">
-                <a class="btn btn-sm btn-primary mt-1" href="{{ url('level/create') }}">Tambah</a>
-                <button onclick="modalAction('{{ url('/level/create_ajax') }}')" class="btn btn-sm btn-success mt-1">Tambah Ajax</button>
+                <button onclick="modalAction('{{ url('/level/import') }}')" class="btn btn-info mt-1">Import Level</button>
+                <a class="btn btn-primary mt-1" href="{{ url('level/create') }}">Tambah</a>
+                <button onclick="modalAction('{{ url('level/create_ajax') }}')" class="btn btn-success mt-1">Tambah Ajax</button>
             </div>
         </div>
         <div class="card-body">
@@ -32,10 +33,11 @@
 @push('js')
     <script>
         function modalAction(url = '') {
-            $('#myModal').load(url,function() {
+            $('#myModal').load(url, function() {
                 $('#myModal').modal('show');
             });
-        }   
+        }
+
         var dataLevel
         $(document).ready(function() {
             dataLevel = $('#table_level').DataTable({
@@ -71,7 +73,12 @@
                         searchable: false   // searchable: true, jika ingin kolom ini bisa dicari
                     }
                 ]
-            });            
+            });
+            $('#table-level_filter input').unbind().bind().on('keyup', function(e){
+                if(e.keyCode == 13){ // enter key
+                    dataLevel.search(this.value).draw();
+                }
+            });
         });
     </script>
 @endpush

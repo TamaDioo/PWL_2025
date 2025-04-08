@@ -3,10 +3,11 @@
 @section('content')
     <div class="card card-outline card-primary">
         <div class="card-header">
-            <h3 class="card-title">{{ $page->title }}</h3>
+            <h3 class="card-title">Daftar Supplier</h3>
             <div class="card-tools">
-                <a class="btn btn-sm btn-primary mt-1" href="{{ url('supplier/create') }}">Tambah</a>
-                <button onclick="modalAction('{{ url('/supplier/create_ajax') }}')" class="btn btn-sm btn-success mt-1">Tambah Ajax</button>
+                <button onclick="modalAction('{{ url('/supplier/import') }}')" class="btn btn-info mt-1">Import Supplier</button>
+                <a class="btn btn-primary mt-1" href="{{ url('supplier/create') }}">Tambah</a>
+                <button onclick="modalAction('{{ url('supplier/create_ajax') }}')" class="btn btn-success mt-1">Tambah Ajax</button>
             </div>
         </div>
         <div class="card-body">
@@ -32,10 +33,11 @@
 @push('js')
     <script>
         function modalAction(url = '') {
-            $('#myModal').load(url,function() {
+            $('#myModal').load(url, function() {
                 $('#myModal').modal('show');
             });
-        }   
+        }
+
         var dataSupplier
         $(document).ready(function() {
             dataSupplier = $('#table_supplier').DataTable({
@@ -76,7 +78,12 @@
                         searchable: false   // searchable: true, jika ingin kolom ini bisa dicari
                     }
                 ]
-            });            
+            });
+            $('#table-supplier_filter input').unbind().bind().on('keyup', function(e){
+                if(e.keyCode == 13){ // enter key
+                    dataSupplier.search(this.value).draw();
+                }
+            });
         });
     </script>
 @endpush

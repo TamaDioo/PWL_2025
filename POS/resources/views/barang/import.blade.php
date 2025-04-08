@@ -49,7 +49,7 @@
                                 title: 'Berhasil',
                                 text: response.message
                             });
-                            dataBarang.ajax.reload(); // reload datatable
+                            tableBarang.ajax.reload(); // reload datatable
                         } else { // jika error
                             $('.error-text').text('');
                             $.each(response.msgField, function(prefix, val) {
