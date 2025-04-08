@@ -43,8 +43,9 @@ Route::middleware(['auth'])->group(function () { // artinya semua route di dalam
             Route::get('/{id}/delete_ajax', [UserController::class, 'confirm_ajax']);  // Untuk tampilkan form confirm delete user Ajax
             Route::delete('/{id}/delete_ajax', [UserController::class, 'delete_ajax']);  // Untuk hapus data user Ajax
             Route::delete('/{id}', [UserController::class, 'destroy']); // menghapus data user
-            Route::get('import', [UserController::class, 'import']); // ajax form upload excel
-            Route::post('import_ajax', [UserController::class, 'import_ajax']); // ajax import excel
+            Route::get('/import', [UserController::class, 'import']); // ajax form upload excel
+            Route::post('/import_ajax', [UserController::class, 'import_ajax']); // ajax import excel
+            Route::get('/export_excel', [UserController::class, 'export_excel']); // export excel
         });
     });
 
@@ -68,6 +69,7 @@ Route::middleware(['auth'])->group(function () { // artinya semua route di dalam
         Route::delete('level/{id}', [LevelController::class, 'destroy']); // menghapus data level
         Route::get('level/import', [LevelController::class, 'import']); // ajax form upload excel
         Route::post('level/import_ajax', [LevelController::class, 'import_ajax']); // ajax import excel
+        Route::get('level/export_excel', [LevelController::class, 'export_excel']); // export excel
     });
 
     // Menu Kategori Barang hanya bisa diakses oleh administrator (ADM) dan Manager (MNG) saja
@@ -88,8 +90,9 @@ Route::middleware(['auth'])->group(function () { // artinya semua route di dalam
             Route::get('/{id}/delete_ajax', [KategoriController::class, 'confirm_ajax']);  // Untuk tampilkan form confirm delete kategori Ajax
             Route::delete('/{id}/delete_ajax', [KategoriController::class, 'delete_ajax']);  // Untuk hapus data kategori Ajax
             Route::delete('/{id}', [KategoriController::class, 'destroy']); // menghapus data kategori
-            Route::get('import', [KategoriController::class, 'import']); // ajax form upload excel
-            Route::post('import_ajax', [KategoriController::class, 'import_ajax']); // ajax import excel
+            Route::get('/import', [KategoriController::class, 'import']); // ajax form upload excel
+            Route::post('/import_ajax', [KategoriController::class, 'import_ajax']); // ajax import excel
+            Route::get('/export_excel', [KategoriController::class, 'export_excel']); // export excel
         });
     });
 
@@ -111,8 +114,9 @@ Route::middleware(['auth'])->group(function () { // artinya semua route di dalam
             Route::get('/{id}/delete_ajax', [SupplierController::class, 'confirm_ajax']);   // Untuk tampilkan form confirm delete supplier Ajax
             Route::delete('/{id}/delete_ajax', [SupplierController::class, 'delete_ajax']);  // Untuk hapus data supplier Ajax
             Route::delete('/{id}', [SupplierController::class, 'destroy']); // menghapus data supplier
-            Route::get('import', [SupplierController::class, 'import']); // ajax form upload excel
-            Route::post('import_ajax', [SupplierController::class, 'import_ajax']); // ajax import excel
+            Route::get('/import', [SupplierController::class, 'import']); // ajax form upload excel
+            Route::post('/import_ajax', [SupplierController::class, 'import_ajax']); // ajax import excel
+            Route::get('/export_excel', [SupplierController::class, 'export_excel']); // export excel
         });
     });
 
@@ -135,6 +139,7 @@ Route::middleware(['auth'])->group(function () { // artinya semua route di dalam
         Route::delete('barang/{id}', [BarangController::class, 'destroy']); // menghapus data barang
         Route::get('barang/import', [BarangController::class, 'import']); // ajax form upload excel
         Route::post('barang/import_ajax', [BarangController::class, 'import_ajax']); // ajax import excel
+        Route::get('barang/export_excel', [BarangController::class, 'export_excel']); // export excel
     });
 
     // Route untuk Halaman Products menggunakan Route Prefix
