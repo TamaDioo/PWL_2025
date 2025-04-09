@@ -46,6 +46,7 @@ Route::middleware(['auth'])->group(function () { // artinya semua route di dalam
             Route::get('/import', [UserController::class, 'import']); // ajax form upload excel
             Route::post('/import_ajax', [UserController::class, 'import_ajax']); // ajax import excel
             Route::get('/export_excel', [UserController::class, 'export_excel']); // export excel
+            Route::get('/export_pdf', [UserController::class, 'export_pdf']); // export pdf
         });
     });
 
@@ -70,6 +71,7 @@ Route::middleware(['auth'])->group(function () { // artinya semua route di dalam
         Route::get('level/import', [LevelController::class, 'import']); // ajax form upload excel
         Route::post('level/import_ajax', [LevelController::class, 'import_ajax']); // ajax import excel
         Route::get('level/export_excel', [LevelController::class, 'export_excel']); // export excel
+        Route::get('level/export_pdf', [LevelController::class, 'export_pdf']); // export pdf
     });
 
     // Menu Kategori Barang hanya bisa diakses oleh administrator (ADM) dan Manager (MNG) saja
@@ -93,6 +95,7 @@ Route::middleware(['auth'])->group(function () { // artinya semua route di dalam
             Route::get('/import', [KategoriController::class, 'import']); // ajax form upload excel
             Route::post('/import_ajax', [KategoriController::class, 'import_ajax']); // ajax import excel
             Route::get('/export_excel', [KategoriController::class, 'export_excel']); // export excel
+            Route::get('/export_pdf', [KategoriController::class, 'export_pdf']); // export pdf
         });
     });
 
@@ -117,6 +120,7 @@ Route::middleware(['auth'])->group(function () { // artinya semua route di dalam
             Route::get('/import', [SupplierController::class, 'import']); // ajax form upload excel
             Route::post('/import_ajax', [SupplierController::class, 'import_ajax']); // ajax import excel
             Route::get('/export_excel', [SupplierController::class, 'export_excel']); // export excel
+            Route::get('/export_pdf', [SupplierController::class, 'export_pdf']); // export pdf
         });
     });
 
@@ -135,12 +139,15 @@ Route::middleware(['auth'])->group(function () { // artinya semua route di dalam
         Route::get('barang/{id}/edit_ajax', [BarangController::class, 'edit_ajax']);        // Menampilkan halaman form edit barang Ajax
         Route::put('barang/{id}/update_ajax', [BarangController::class, 'update_ajax']);    // Menyimpan perubahan data barang Ajax
         Route::get('barang/{id}/delete_ajax', [BarangController::class, 'confirm_ajax']);   // Untuk tampilkan form confirm delete barang Ajax
-        Route::delete('barang/{id}/delete_ajax', [BarangController::class, 'delete_ajax']);  // Untuk hapus data supplier Ajax
+        Route::delete('barang/{id}/delete_ajax', [BarangController::class, 'delete_ajax']);  // Untuk hapus data barang Ajax
         Route::delete('barang/{id}', [BarangController::class, 'destroy']); // menghapus data barang
         Route::get('barang/import', [BarangController::class, 'import']); // ajax form upload excel
         Route::post('barang/import_ajax', [BarangController::class, 'import_ajax']); // ajax import excel
         Route::get('barang/export_excel', [BarangController::class, 'export_excel']); // export excel
+        Route::get('barang/export_pdf', [BarangController::class, 'export_pdf']); // export pdf
     });
+
+    // Route::get('/', [HomeController::class, 'index'])->name('home');
 
     // Route untuk Halaman Products menggunakan Route Prefix
     Route::prefix('category')->group(function () {
@@ -164,11 +171,9 @@ Route::middleware(['auth'])->group(function () { // artinya semua route di dalam
     // Route::get('/level', [LevelController::class, 'index']);
     // Route::get('/kategori', [KategoriController::class, 'index']);
     // Route::get('/user', [UserController::class, 'index']);
-    Route::get('/user/tambah', [UserController::class, 'tambah']);
+    // Route::get('/user/tambah', [UserController::class, 'tambah']);
     Route::post('/user/tambah_simpan', [UserController::class, 'tambah_simpan']);
     Route::get('/user/ubah/{id}', [UserController::class, 'ubah']);
     Route::put('/user/ubah_simpan/{id}', [UserController::class, 'ubah_simpan']);
     Route::get('/user/hapus/{id}', [UserController::class, 'hapus']);
 });
-
-// Route::get('/', [HomeController::class, 'index'])->name('home');
