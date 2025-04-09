@@ -76,6 +76,12 @@
       </li>
       <li class="nav-header">Akun</li>
       <li class="nav-item">
+        <a href="{{ url('/profil') }}" class="nav-link {{ ($activeMenu == 'profil') ? 'active' : '' }}">
+          <i class="nav-icon fas fa-user-circle"></i>
+          <p>Profil</p>
+        </a>
+      </li>
+      <li class="nav-item">
         <a href="{{ url('logout') }}" class="nav-link">
           <i class="nav-icon fas fa-sign-out-alt"></i>
           <p class="text">Logout</p>
