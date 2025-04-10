@@ -8,6 +8,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SalesController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
@@ -146,6 +147,10 @@ Route::middleware(['auth'])->group(function () { // artinya semua route di dalam
         Route::get('barang/export_excel', [BarangController::class, 'export_excel']); // export excel
         Route::get('barang/export_pdf', [BarangController::class, 'export_pdf']); // export pdf
     });
+
+    Route::get('/profil', [ProfileController::class, 'index']);
+    Route::get('/profil/upload', [ProfileController::class, 'uploadFoto']);
+    Route::post('/profil/save', [ProfileController::class, 'simpanFoto']);
 
     // Route::get('/', [HomeController::class, 'index'])->name('home');
 
