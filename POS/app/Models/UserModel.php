@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable; // implementasi class Authenticatable
 
@@ -21,7 +22,7 @@ class UserModel extends Authenticatable
     // protected $fillable = ['level_id', 'username', 'nama']; // Praktikum 1 Langkah 4
 
     /**
-     * Relasi ke tabel level
+     * Relasi ke tabel m_level (many-to-one) 
      */
     public function level(): BelongsTo
     {
@@ -50,5 +51,17 @@ class UserModel extends Authenticatable
     public function getRole()
     {
         return $this->level->level_kode;
+    }
+
+    // Relasi dengan tabel t_stok (one-to-many).
+    public function stok(): HasMany
+    {
+        return $this->hasMany(StokModel::class, 'user_id');
+    }
+
+    // Relasi dengan tabel t_penjualan (one-to-many).
+    public function penjualan(): HasMany
+    {
+        return $this->hasMany(PenjualanModel::class, 'user_id');
     }
 }

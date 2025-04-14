@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class LevelModel extends Model
 {
@@ -17,8 +17,9 @@ class LevelModel extends Model
      */
     protected $fillable = ['level_kode', 'level_nama'];
 
-    public function user(): BelongsTo
+    // Relasi dengan tabel m_user (one-to-many).
+    public function user(): HasMany
     {
-        return $this->belongsTo(UserModel::class);
+        return $this->hasMany(UserModel::class, 'level_id');
     }
 }

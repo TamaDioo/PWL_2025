@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class KategoriModel extends Model
 {
@@ -17,8 +18,9 @@ class KategoriModel extends Model
      */
     protected $fillable = ['kategori_kode', 'kategori_nama'];
 
-    public function barang(): BelongsTo
+    // Relasi dengan tabel m_barang (one-to-many).
+    public function barang(): HasMany
     {
-        return $this->belongsTo(BarangModel::class);
+        return $this->hasMany(BarangModel::class, 'kategori_id');
     }
 }

@@ -19,8 +19,21 @@ class StokModel extends Model
      */
     protected $fillable = ['supplier_id', 'barang_id', 'user_id', 'stok_tanggal', 'stok_jumlah'];
 
+    // Relasi dengan tabel m_supplier (many-to-one).
     public function supplier(): BelongsTo
     {
-        return $this->belongsTo(KategoriModel::class, 'supplier_id', 'supplier_id');
+        return $this->belongsTo(SupplierModel::class, 'supplier_id', 'supplier_id');
+    }
+
+    // Relasi dengan tabel m_user (many-to-one).
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(UserModel::class, 'user_id', 'user_id');
+    }
+
+    // Relasi dengan tabel m_barang (many-to-one).
+    public function barang(): BelongsTo
+    {
+        return $this->belongsTo(BarangModel::class, 'barang_id', 'barang_id');
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class SupplierModel extends Model
 {
@@ -17,8 +17,9 @@ class SupplierModel extends Model
      */
     protected $fillable = ['supplier_kode', 'supplier_nama', 'supplier_alamat'];
 
-    public function stok(): BelongsTo
+    // Relasi dengan tabel t_stok (one-to-many).
+    public function stok(): HasMany
     {
-        return $this->belongsTo(StokModel::class);
+        return $this->hasMany(StokModel::class, 'supplier_id');
     }
 }
