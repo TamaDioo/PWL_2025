@@ -3,47 +3,82 @@
 @section('content')
     <div class="card card-outline card-primary">
         <div class="card-header">
-            <h3 class="card-title">Daftar Barang</h3>
+            <h3 class="card-title">Daftar Stok Barang</h3>
             <div class="card-tools">
-                <button onclick="modalAction('{{ url('/barang/import') }}')" class="btn btn-info">Import Barang</button>
-                <a href="{{ url('/barang/export_pdf') }}" class="btn btn-warning"><i class="fa fa-file-pdf"></i> Export Barang (PDF)</a>
-                <a href="{{ url('/barang/export_excel') }}" class="btn btn-primary"><i class="fa fa-file-excel"></i> Export Barang</a>
-                <button onclick="modalAction('{{ url('barang/create_ajax') }}')" class="btn btn-success">Tambah Ajax</button>
+                <a href="{{ url('/stok/create') }}" class="btn btn-success">Tambah Stok</a>
             </div>
         </div>
         <div class="card-body">
-            <!-- untuk Filter data -->
             <div id="filter" class="form-horizontal filter-date p-2 border-bottom mb-2">
+                {{-- <div class="row">
+                        <label class="col-1 control-label col-form-label">Filter:</label>
+                </div> --}}
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-4">
                         <div class="form-group form-group-sm row text-sm mb-0">
-                            <label for="filter_date" class="col-md-1 col-form-label">Filter</label>
-                            <div class="col-md-3">
-                                <select name="filter_kategori" class="form-control form-control-sm filter_kategori">
+                            <label for="filter_supplier" class="col-md-3 col-form-label">Supplier</label>
+                            <div class="col-md-9">
+                                <select name="filter_supplier" class="form-control form-control-sm filter_supplier">
                                     <option value="">- Semua -</option>
-                                    @foreach($kategori as $l)
-                                        <option value="{{ $l->kategori_id }}">{{ $l->kategori_nama }}</option>
+                                    @foreach($suppliers as $supplier)
+                                        <option value="{{ $supplier->supplier_id }}">{{ $supplier->supplier_nama }}</option>
                                     @endforeach
                                 </select>
-                                <small class="form-text text-muted">Kategori Barang</small>
+                                <small class="form-text text-muted">Filter Berdasarkan Supplier</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-group-sm row text-sm mb-0">
+                            <label for="filter_user" class="col-md-3 col-form-label">User</label>
+                            <div class="col-md-9">
+                                <select name="filter_user" class="form-control form-control-sm filter_user">
+                                    <option value="">- Semua -</option>
+                                    @foreach($users as $user)
+                                        <option value="{{ $user->user_id }}">{{ $user->nama }}</option>
+                                    @endforeach
+                                </select>
+                                <small class="form-text text-muted">Filter Berdasarkan User</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-group-sm row text-sm mb-0">
+                            <label for="filter_barang" class="col-md-3 col-form-label">Barang</label>
+                            <div class="col-md-9">
+                                <select name="filter_barang" class="form-control form-control-sm filter_barang">
+                                    <option value="">- Semua -</option>
+                                    @foreach($barangs as $barang)
+                                        <option value="{{ $barang->barang_id }}">{{ $barang->barang_nama }}</option>
+                                    @endforeach
+                                </select>
+                                <small class="form-text text-muted">Filter Berdasarkan Barang</small>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
             @if (session('success'))
                 <div class="alert alert-success">{{ session('success') }}</div>
             @endif
             @if (session('error'))
                 <div class="alert alert-danger">{{ session('error') }}</div>
             @endif
-            <table class="table table-bordered table-striped table-hover table-sm" id="table_barang">
+            <table class="table table-bordered table-striped table-hover table-sm" id="table_stok">
                 <thead>
-                    <tr><th>ID</th><th>Kode Barang</th><th>Nama Barang</th><th>Harga Beli</th><th>Harga Jual</th><th>Kategori Barang</th><th>Aksi</th></tr>
+                    <tr>
+                        <th>ID</th>
+                        <th>Barang</th>
+                        <th>Supplier</th>
+                        <th>User</th>
+                        <th>Tanggal Stok</th>
+                        <th>Jumlah Stok</th>
+                        <th>Aksi</th>
+                    </tr>
                 </thead>
             </table>
         </div>
     </div>
-<div id="myModal" class="modal fade animate shake" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" data-width="75%" aria-hidden="true"></div>
 @endsection
 
 @push('css')
@@ -51,87 +86,45 @@
 
 @push('js')
     <script>
-        function modalAction(url = '') {
-            $('#myModal').load(url, function() {
-                $('#myModal').modal('show');
-            });
-        }
-
-        var dataBarang
+        var dataStok;
         $(document).ready(function() {
-            dataBarang = $('#table_barang').DataTable({
-                // serverSide: true, jika ingin menggunakan server side processing
+            dataStok = $('#table_stok').DataTable({
                 serverSide: true,
                 ajax: {
-                    "url": "{{ url('barang/list') }}",
+                    "url": "{{ url('stok/list') }}",
                     "dataType": "json",
                     "type": "POST",
-                    "data": function (d) { 
-                        d.filter_kategori = $('.filter_kategori').val();
-                     }
+                    "data": function (d) {
+                        d.supplier_id = $('.filter_supplier').val();
+                        d.user_id = $('.filter_user').val();
+                        d.barang_id = $('.filter_barang').val();
+                    }
                 },
                 columns: [
-                    {
-                        data: "DT_RowIndex", // nomor urut dari laravel datatable addIndexColumn()
-                        className: "text-center",
-                        orderable: false,
-                        searchable: false
-                    },{
-                        data: "barang_kode",
-                        className: "",
-                        // orderable: true, jika ingin kolom ini bisa diurutkan
-                        orderable: true,
-                        // searchable: true, jika ingin kolom ini bisa dicari
-                        searchable: true
-                    },{
-                        data: "barang_nama",
-                        className: "",
-                        orderable: true,
-                        searchable: true
-                    },{
-                        data: "harga_beli",
-                        className: "",
-                        orderable: true,
-                        searchable: false,
-                        render: function(data, type, row){
-                            return new Intl.NumberFormat('id-ID').format(data);
-                        }
-                    },{
-                        data: "harga_jual",
-                        className: "",
-                        orderable: true,
-                        searchable: false,
-                        render: function(data, type, row){
-                            return new Intl.NumberFormat('id-ID').format(data);
-                        }
-                    },{
-                        // mengambil data kategori hasil dari ORM berelasi
-                        data: "kategori.kategori_nama",
-                        className: "",
-                        orderable: false,
-                        searchable: false
-                    },{
-                        data: "aksi",
-                        className: "",
-                        orderable: false,   // orderable: true, jika ingin kolom ini bisa diurutkan
-                        searchable: false   // searchable: true, jika ingin kolom ini bisa dicari
-                    }
+                    { data: "DT_RowIndex", className: "text-center", orderable: false, searchable: false },
+                    { data: "barang.barang_nama", className: "", orderable: true, searchable: true },
+                    { data: "supplier.supplier_nama", className: "", orderable: true, searchable: true },
+                    { data: "user.nama", className: "", orderable: true, searchable: true },
+                    { data: "stok_tanggal", className: "", orderable: true, searchable: false },
+                    { data: "stok_jumlah", className: "", orderable: true, searchable: false },
+                    { data: "aksi", className: "text-center", orderable: false, searchable: false }
                 ]
             });
-            $('#table-barang_filter input').unbind().bind().on('keyup', function(e){
-                if(e.keyCode == 13){ // enter key
-                    dataBarang.search(this.value).draw();
-                }
+
+            $('.filter_supplier, .filter_user, .filter_barang').change(function(){
+                dataStok.draw();
             });
 
-            $('.filter_kategori').change(function(){
-                dataBarang.draw();
+            $('#table_stok_filter input').unbind().bind('keyup', function(e) {
+                if (e.keyCode == 13) {
+                    dataStok.search(this.value).draw();
+                }
             });
         });
     </script>
 @endpush
 
-{{-- Implementasi Jobsheet 5 - view barang.index
+{{-- Implementasi JS 5 - view barang.index
 @extends('layouts.template')
 
 @section('content')

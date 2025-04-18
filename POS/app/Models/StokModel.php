@@ -12,6 +12,11 @@ class StokModel extends Model
 
     protected $table = 't_stok'; //Mendefinisikan nama tabel yang digunakan oleh model ini
     protected $primaryKey = 'stok_id'; // Mendefinisikan primary key dari tabel yang digunakan
+
+    protected $casts = [
+        'stok_tanggal' => 'datetime',
+    ];
+
     /**
      * The attributes that are mass assignable.
      * 
