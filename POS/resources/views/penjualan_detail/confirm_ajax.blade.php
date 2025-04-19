@@ -57,7 +57,7 @@
     <script>
         $(document).ready(function() {
             $("#form-delete-detail-penjualan").validate({
-                rules: {}, // Tidak ada aturan validasi untuk form konfirmasi
+                rules: {}, 
                 submitHandler: function(form) {
                     $.ajax({
                         url: form.action,
@@ -65,7 +65,7 @@
                         data: $(form).serialize(),
                         success: function(response) {
                             if (response.status) {
-                                $('#myModal').modal('hide'); // Sesuaikan dengan ID modal Anda
+                                $('#myModal').modal('hide'); 
                                 Swal.fire({
                                     icon: 'success',
                                     title: 'Berhasil',

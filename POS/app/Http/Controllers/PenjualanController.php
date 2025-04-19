@@ -51,7 +51,7 @@ class PenjualanController extends Controller
             $penjualans->whereDate('penjualan_tanggal', $request->penjualan_tanggal);
         }
 
-        // Filter data penjualan berdasarkan nama pelanggan
+        // Filter data penjualan berdasarkan nama pembeli
         if ($request->pembeli) {
             $penjualans->where('pembeli', 'like', '%' . $request->pembeli . '%');
         }

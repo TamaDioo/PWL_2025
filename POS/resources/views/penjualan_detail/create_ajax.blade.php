@@ -90,7 +90,7 @@
                         data: $(form).serialize(),
                         success: function(response) {
                             if(response.status) {
-                                $('#myModal').modal('hide'); // Sesuaikan dengan ID modal Anda
+                                $('#myModal').modal('hide');  
                                 Swal.fire({
                                     icon: 'success',
                                     title: 'Berhasil',

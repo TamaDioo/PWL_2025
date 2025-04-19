@@ -152,7 +152,7 @@ Route::middleware(['auth'])->group(function () { // artinya semua route di dalam
     });
 
     // artinya semua route di dalam group ini harus punya role ADM (Administrator) dan MNG (Manager)
-    Route::middleware(['authorize:ADM,MNG'])->group(function () {
+    Route::middleware(['authorize:ADM,MNG,STF'])->group(function () {
         Route::get('stok/', [StokController::class, 'index']);                          // menampilkan halaman awal stok
         Route::post('stok/list', [StokController::class, 'list']);                      // menampilkan data stok untuk datatables (JSON)
         Route::get('stok/create', [StokController::class, 'create']);                   // menampilkan halaman form tambah stok
@@ -197,7 +197,7 @@ Route::middleware(['auth'])->group(function () { // artinya semua route di dalam
         Route::get('penjualan/export_pdf', [PenjualanController::class, 'export_pdf']); // export pdf
     });
 
-    Route::middleware(['authorize:ADM,MNG,STF,KSR'])->group(function () {
+    Route::middleware(['authorize:ADM,MNG,KSR'])->group(function () {
         Route::get('penjualan_detail/', [PenjualanDetailController::class, 'index']);                          // menampilkan halaman awal penjualan
         Route::post('penjualan_detail/list', [PenjualanDetailController::class, 'list']);                      // menampilkan data penjualan untuk datatables (JSON)
         Route::get('penjualan_detail/create_ajax', [PenjualanDetailController::class, 'create_ajax']);         // Manampilkan halaman form tambah penjualan Ajax

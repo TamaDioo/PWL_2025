@@ -45,7 +45,7 @@ class StokController extends Controller
     public function list(Request $request)
     {
         $stoks = StokModel::select('stok_id', 'supplier_id', 'barang_id', 'user_id', 'stok_tanggal', 'stok_jumlah')
-            ->with(['supplier', 'barang', 'user']); // Eager load relasi
+            ->with(['supplier', 'barang', 'user']);
 
         // Filter data stok berdasarkan supplier_id
         if ($request->supplier_id) {
@@ -294,9 +294,9 @@ class StokController extends Controller
 
             if ($validator->fails()) {
                 return response()->json([
-                    'status' => false, // respon json, true: berhasil, false: gagal
+                    'status' => false,
                     'message' => 'Validasi gagal.',
-                    'msgField' => $validator->errors() // menunjukkan field mana yang error
+                    'msgField' => $validator->errors()
                 ]);
             }
 

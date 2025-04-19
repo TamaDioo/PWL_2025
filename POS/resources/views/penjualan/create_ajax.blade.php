@@ -59,7 +59,7 @@
                     data: $(form).serialize(),
                     success: function(response) {
                         if(response.status) {
-                            $('#myModal').modal('hide'); // Sesuaikan dengan ID modal Anda
+                            $('#myModal').modal('hide'); 
                             Swal.fire({
                                 icon: 'success',
                                 title: 'Berhasil',
@@ -69,7 +69,7 @@
                                     if (typeof dataPenjualan !== 'undefined') {
                                         dataPenjualan.ajax.reload();
                                     } else {
-                                        location.reload(); // Jika dataPenjualan tidak terdefinisi, reload halaman
+                                        location.reload(); 
                                     }
                                 }
                             });

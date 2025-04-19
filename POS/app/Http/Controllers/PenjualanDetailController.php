@@ -70,7 +70,7 @@ class PenjualanDetailController extends Controller
         $penjualans = PenjualanModel::select('penjualan_id', 'penjualan_kode')->get();
         $barangs = BarangModel::select('barang_id', 'barang_nama', 'harga_jual') // Ambil harga_jual
             ->get()
-            ->keyBy('barang_id'); // Index barang berdasarkan barang_id untuk akses cepat di view
+            ->keyBy('barang_id');
         $stoks = StokModel::select('barang_id', DB::raw('SUM(stok_jumlah) as total_stok'))
             ->groupBy('barang_id')
             ->get()
@@ -98,7 +98,6 @@ class PenjualanDetailController extends Controller
                 ]);
             }
 
-            // Gunakan database transaction untuk memastikan operasi atomik
             DB::beginTransaction();
             try {
                 $barang = BarangModel::findOrFail($request->barang_id);
@@ -121,7 +120,7 @@ class PenjualanDetailController extends Controller
                 $request->merge(['harga' => $hargaJual]);
                 PenjualanDetailModel::create($request->all());
 
-                // Kurangi stok dari tabel t_stok (implementasi pengurangan stok perlu disesuaikan)
+                // Kurangi stok dari tabel t_stok 
                 $stoksToReduce = StokModel::where('barang_id', $request->barang_id)
                     ->orderBy('stok_tanggal') // Menggunakan FIFO
                     ->get();

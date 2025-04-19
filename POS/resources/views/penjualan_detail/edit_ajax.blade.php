@@ -64,9 +64,9 @@
                     url: form.action,
                     type: 'POST',
                     data: $(form).serialize(),
-                    dataType: 'json', // Harapkan respons dalam format JSON
+                    dataType: 'json', // respons format JSON
                     headers: {
-                        'X-Requested-With': 'XMLHttpRequest' // Tambahkan header ini
+                        'X-Requested-With': 'XMLHttpRequest' 
                     },
                     success: function(response) {
                         if(response.status) {
