@@ -5,7 +5,8 @@
         <div class="card-header">
             <h3 class="card-title">Daftar Transaksi Penjualan</h3>
             <div class="card-tools">
-                <a href="{{ url('/penjualan/create') }}" class="btn btn-success">Tambah Penjualan</a>
+                <a href="{{ url('/penjualan/create') }}" class="btn btn-primary mt-1">Tambah Penjualan</a>
+                <button onclick="modalAction('{{ url('/penjualan/create_ajax') }}')" class="btn btn-success mt-1">Tambah Ajax</button>
             </div>
         </div>
         <div class="card-body">
@@ -31,7 +32,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group form-group-sm row text-sm mb-0">
-                            <label for="filter_user" class="col-md-3 col-form-label">User</label>
+                            <label for="filter_user" class="col-md-3 col-form-label">Kasir</label>
                             <div class="col-md-9">
                                 <select name="filter_user" class="form-control form-control-sm filter_user">
                                     <option value="">- Semua -</option>
@@ -39,7 +40,7 @@
                                         <option value="{{ $user->user_id }}">{{ $user->nama }}</option>
                                     @endforeach
                                 </select>
-                                <small class="form-text text-muted">Filter Berdasarkan User</small>
+                                <small class="form-text text-muted">Filter Berdasarkan Kasir</small>
                             </div>
                         </div>
                     </div>
@@ -57,14 +58,16 @@
                         <th>ID</th>
                         <th>Kode Penjualan</th>
                         <th>Pembeli</th>
-                        <th>User</th>
+                        <th>Kasir</th>
                         <th>Tanggal Penjualan</th>
+                        <th>Total Harga</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
             </table>
         </div>
     </div>
+<div id="myModal" class="modal fade animate shake" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" data-width="75%" aria-hidden="true"></div>
 @endsection
 
 @push('css')
@@ -72,6 +75,11 @@
 
 @push('js')
     <script>
+        function modalAction(url = '')  {
+            $('#myModal').load(url,function() {
+                $('#myModal').modal('show');
+            });
+        }
         var dataPenjualan;
         $(document).ready(function() {
             dataPenjualan = $('#table_penjualan').DataTable({
@@ -92,6 +100,9 @@
                     { data: "pembeli", className: "", orderable: true, searchable: false },
                     { data: "user.nama", className: "", orderable: true, searchable: true },
                     { data: "penjualan_tanggal", className: "", orderable: true, searchable: false },
+                    { data: function(row) {
+                        return parseFloat(row.total_harga).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' });
+                    }, className: "", orderable: false, searchable: false },
                     { data: "aksi", className: "text-center", orderable: false, searchable: false }
                 ]
             });

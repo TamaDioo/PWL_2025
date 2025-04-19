@@ -74,6 +74,13 @@
           <p>Transaksi Penjualan</p>
         </a>
       </li>
+      <li class="nav-item">
+        <a href="{{ url('/penjualan_detail') }}" class="nav-link {{ ($activeMenu ==
+        'detail_penjualan')? 'active' : '' }} ">
+          <i class="nav-icon fas fa-file-invoice-dollar"></i>
+          <p>Detail Penjualan</p>
+        </a>
+      </li>
       <li class="nav-header">Akun</li>
       <li class="nav-item">
         <a href="{{ url('/profil') }}" class="nav-link {{ ($activeMenu == 'profil') ? 'active' : '' }}">

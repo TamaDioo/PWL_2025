@@ -67,12 +67,6 @@
                             </select>
                             </div>
                         </div>
-                        {{-- <div class="form-group row">
-                            <label class="col-2 control-label col-form-label">Harga</label>
-                            <div class="col-10">
-                                <input type="number" class="form-control" name="harga[]" required>
-                            </div>
-                        </div> --}}
                         <div class="form-group row">
                             <label class="col-2 control-label col-form-label">Jumlah</label>
                             <div class="col-10">

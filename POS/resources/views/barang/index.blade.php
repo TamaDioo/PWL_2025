@@ -93,16 +93,16 @@
                         className: "",
                         orderable: true,
                         searchable: false,
-                        render: function(data, type, row){
-                            return new Intl.NumberFormat('id-ID').format(data);
+                        render: function(data, type, row) {
+                            return parseFloat(row.harga_beli).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' });
                         }
                     },{
                         data: "harga_jual",
                         className: "",
                         orderable: true,
                         searchable: false,
-                        render: function(data, type, row){
-                            return new Intl.NumberFormat('id-ID').format(data);
+                        render: function(data, type, row) {
+                            return parseFloat(row.harga_jual).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' });
                         }
                     },{
                         // mengambil data kategori hasil dari ORM berelasi

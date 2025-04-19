@@ -5,14 +5,12 @@
         <div class="card-header">
             <h3 class="card-title">Daftar Stok Barang</h3>
             <div class="card-tools">
-                <a href="{{ url('/stok/create') }}" class="btn btn-success">Tambah Stok</a>
+                <a href="{{ url('/stok/create') }}" class="btn btn-primary mt-1">Tambah Stok</a>
+                <button onclick="modalAction('{{ url('/stok/create_ajax') }}')" class="btn btn-success mt-1">Tambah Ajax</button>
             </div>
         </div>
         <div class="card-body">
             <div id="filter" class="form-horizontal filter-date p-2 border-bottom mb-2">
-                {{-- <div class="row">
-                        <label class="col-1 control-label col-form-label">Filter:</label>
-                </div> --}}
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group form-group-sm row text-sm mb-0">
@@ -79,6 +77,7 @@
             </table>
         </div>
     </div>
+<div id="myModal" class="modal fade animate shake" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" data-width="75%" aria-hidden="true"></div>
 @endsection
 
 @push('css')
@@ -86,6 +85,11 @@
 
 @push('js')
     <script>
+        function modalAction(url = '')  {
+            $('#myModal').load(url, function() {
+                $('#myModal').modal('show');
+            });
+        }
         var dataStok;
         $(document).ready(function() {
             dataStok = $('#table_stok').DataTable({
