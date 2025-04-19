@@ -217,6 +217,9 @@ Route::middleware(['auth'])->group(function () { // artinya semua route di dalam
     Route::get('/profil', [ProfileController::class, 'index']);
     Route::get('/profil/upload', [ProfileController::class, 'uploadFoto']);
     Route::post('/profil/save', [ProfileController::class, 'simpanFoto']);
+    Route::get('/profil/edit', [ProfileController::class, 'editProfil'])->name('profil.edit');
+    Route::post('/profil/update_ajax', [ProfileController::class, 'updateProfil'])->name('profil.update');
+    Route::post('/profil/check-username', [ProfileController::class, 'checkUsername'])->name('profil.check-username');
 
     // Route::get('/', [HomeController::class, 'index'])->name('home');
 
