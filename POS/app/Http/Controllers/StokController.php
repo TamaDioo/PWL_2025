@@ -218,9 +218,11 @@ class StokController extends Controller
     {
         $users = UserModel::all();
         $barangs = BarangModel::all();
+        $suppliers = SupplierModel::all();
 
-        return view('penjualan.create_ajax')
+        return view('stok.create_ajax')
             ->with('users', $users)
+            ->with('suppliers', $suppliers)
             ->with('barangs', $barangs);
     }
 
