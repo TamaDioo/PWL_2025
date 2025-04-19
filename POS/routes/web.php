@@ -195,6 +195,7 @@ Route::middleware(['auth'])->group(function () { // artinya semua route di dalam
         Route::post('penjualan/import_ajax', [PenjualanController::class, 'import_ajax']); // ajax import excel
         Route::get('penjualan/export_excel', [PenjualanController::class, 'export_excel']); // export excel
         Route::get('penjualan/export_pdf', [PenjualanController::class, 'export_pdf']); // export pdf
+        Route::get('/penjualan/{id}/struk', [PenjualanController::class, 'export_struk'])->name('penjualan.struk');
     });
 
     Route::middleware(['authorize:ADM,MNG,KSR'])->group(function () {

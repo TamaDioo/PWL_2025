@@ -15,6 +15,10 @@ class PenjualanModel extends Model
 
     protected $fillable = ['user_id', 'pembeli', 'penjualan_kode', 'penjualan_tanggal'];
 
+    protected $casts = [
+        'penjualan_tanggal' => 'datetime',
+    ];
+
     // Relasi dengan tabel m_user (many-to-one).
     public function user(): BelongsTo
     {

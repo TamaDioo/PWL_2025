@@ -44,6 +44,7 @@
             @endif
         </div>
         <div class="modal-footer">
+            <a href="{{ route('penjualan.struk', $penjualan->penjualan_id) }}" class="btn btn-primary" target="_blank">Cetak Struk</a>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
         </div>
     </div>
