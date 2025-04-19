@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
+use Barryvdh\DomPDF\Facade\Pdf;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class PenjualanDetailController extends Controller
 {
@@ -276,5 +278,138 @@ class PenjualanDetailController extends Controller
             }
         }
         return redirect('/penjualan_detail');
+    }
+
+    public function import()
+    {
+        return view('penjualan_detail.import');
+    }
+
+    public function import_ajax(Request $request)
+    {
+        if ($request->ajax() || $request->wantsJson()) {
+            $rules = [
+                // validasi file harus xls atau xlsx, max 2MB
+                'file_detail' => ['required', 'mimes:xlsx', 'max:2048']
+            ];
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Validasi Gagal',
+                    'msgField' => $validator->errors()
+                ]);
+            }
+            $file = $request->file('file_detail'); // ambil file dari request
+
+            $reader = IOFactory::createReader('Xlsx'); // load reader file excel
+            $reader->setReadDataOnly(true); // hanya membaca data
+            $spreadsheet = $reader->load($file->getRealPath()); // load file excel
+            $sheet = $spreadsheet->getActiveSheet(); // ambil sheet yang aktif
+            $data = $sheet->toArray(null, false, true, true); // ambil data excel
+
+            $insert = [];
+            if (count($data) > 1) { // jika data lebih dari 1 baris
+                foreach ($data as $baris => $value) {
+                    if ($baris > 1) { // baris ke 1 adalah header, maka lewati
+                        $insert[] = [
+                            'penjualan_id' => $value['A'],
+                            'barang_id' => $value['B'],
+                            'harga' => $value['C'],
+                            'jumlah' => $value['D'],
+                            'created_at' => now(),
+                        ];
+                    }
+                }
+                if (count($insert) > 0) {
+                    // insert data ke database, jika data sudah ada, maka diabaikan
+                    PenjualanDetailModel::insertOrIgnore($insert);
+                }
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Data berhasil diimport'
+                ]);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Tidak ada data yang diimport'
+                ]);
+            }
+        }
+        return redirect('/');
+    }
+
+    public function export_excel()
+    {
+        // ambil data detail penjualan yang akan di export
+        $detail = PenjualanDetailModel::select('penjualan_id', 'barang_id', 'harga', 'jumlah')
+            ->orderBy('penjualan_id')
+            ->with(['penjualan', 'barang'])
+            ->get();
+
+        // Load library excel
+        $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet(); // ambil sheet yang aktif
+
+        $sheet->setCellValue('A1', 'No');
+        $sheet->setCellValue('B1', 'Kode Penjualan');
+        $sheet->setCellValue('C1', 'Barang');
+        $sheet->setCellValue('D1', 'Harga');
+        $sheet->setCellValue('E1', 'Jumlah');
+        $sheet->setCellValue('F1', 'Total Harga');
+
+        $sheet->getStyle('A1:F1')->getFont()->setBold(true); // bold header
+
+        $no = 1; // nomor data dimulai dari 1
+        $baris = 2; // baris data dimulai dari baris ke-2
+        foreach ($detail as $key => $value) {
+            $sheet->setCellValue('A' . $baris, $no);
+            $sheet->setCellValue('B' . $baris, $value->penjualan->penjualan_kode);
+            $sheet->setCellValue('C' . $baris, $value->barang->barang_nama);
+            $sheet->setCellValue('D' . $baris, $value->harga);
+            $sheet->setCellValue('E' . $baris, $value->jumlah);
+            $sheet->setCellValue('F' . $baris, $value->harga * $value->jumlah); // subtotal harga
+            $baris++;
+            $no++;
+        }
+
+        foreach (range('A', 'F') as $columnID) {
+            $sheet->getColumnDimension($columnID)->setAutoSize(true); // set auto size untuk kolom
+        }
+
+        $sheet->setTitle('Data Detail Penjualan'); // set title sheet
+
+        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $filename = 'Data Detail Penjualan ' . date('Y-m-d H:i:s') . '.xlsx';
+
+        // Menyiapkan header untuk file Excel
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="' . $filename . '"');
+        header('Cache-Control: max-age=0');
+        header('Cache-Control: max-age=1');
+        header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+        header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+        header('Cache-Control: cache, must-revalidate');
+        header('Pragma: public');
+
+        $writer->save('php://output');
+        exit;
+    } // end function export_excel
+
+    public function export_pdf()
+    {
+        $detail = PenjualanDetailModel::select('penjualan_id', 'barang_id', 'harga', 'jumlah')
+            ->orderBy('penjualan_id')
+            ->orderBy('barang_id')
+            ->with(['penjualan', 'barang'])
+            ->get();
+
+        // use Barryvdh\DomPDF\Facade\Pdf PDF
+        $pdf = Pdf::loadView('penjualan_detail.export_pdf', ['detail' => $detail]);
+        $pdf->setPaper('a4', 'portrait'); // set ukuran kertas dan orientasi 
+        $pdf->setOption('isRemoteEnabled', true); // set true jika ada gambar dari URL
+        $pdf->render();
+
+        return $pdf->stream('Data Detail Penjualan ' . date('Y-m-d H:i:s') . '.pdf');
     }
 }

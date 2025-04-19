@@ -5,10 +5,10 @@
         <div class="card-header">
             <h3 class="card-title">Daftar User</h3>
             <div class="card-tools">
-                <button onclick="modalAction('{{ url('/user/import') }}')" class="btn btn-info mt-1">Import User</button>
+                <button onclick="modalAction('{{ url('/user/import') }}')" class="btn btn-info">Import User</button>
                 <a href="{{ url('/user/export_pdf') }}" class="btn btn-warning"><i class="fa fa-file-pdf"></i> Export User (PDF)</a>
                 <a href="{{ url('/user/export_excel') }}" class="btn btn-primary"><i class="fa fa-file-excel"></i> Export User</a>
-                <button onclick="modalAction('{{ url('user/create_ajax') }}')" class="btn btn-success mt-1">Tambah Ajax</button>
+                <button onclick="modalAction('{{ url('user/create_ajax') }}')" class="btn btn-success">Tambah Ajax</button>
             </div>
         </div>
         <div class="card-body">

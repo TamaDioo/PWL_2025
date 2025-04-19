@@ -5,8 +5,11 @@
         <div class="card-header">
             <h3 class="card-title">Daftar Transaksi Penjualan</h3>
             <div class="card-tools">
-                <a href="{{ url('/penjualan/create') }}" class="btn btn-primary mt-1">Tambah Penjualan</a>
-                <button onclick="modalAction('{{ url('/penjualan/create_ajax') }}')" class="btn btn-success mt-1">Tambah Ajax</button>
+                {{-- <a href="{{ url('/penjualan/create') }}" class="btn btn-primary mt-1">Tambah Penjualan</a> --}}
+                <button onclick="modalAction('{{ url('/penjualan/import') }}')" class="btn btn-info">Import Penjualan</button>
+                <a href="{{ url('/penjualan/export_pdf') }}" class="btn btn-warning"><i class="fa fa-file-pdf"></i> Export Penjualan (PDF)</a>
+                <a href="{{ url('/penjualan/export_excel') }}" class="btn btn-primary"><i class="fa fa-file-excel"></i> Export Penjualan</a>
+                <button onclick="modalAction('{{ url('/penjualan/create_ajax') }}')" class="btn btn-success">Tambah Ajax</button>
             </div>
         </div>
         <div class="card-body">
