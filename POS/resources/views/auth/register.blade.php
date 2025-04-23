@@ -18,16 +18,6 @@
             <form action="{{ url('register') }}" method="POST" id="form-register">
                 @csrf
                 <div class="input-group mb-3">
-                    <select name="level_id" class="form-control">
-                        <option value="">-- Pilih Level --</option>
-                        @foreach ($level as $item)
-                            <option value="{{ $item->level_id }}">{{ $item->level_nama }}</option>
-                        @endforeach
-                    </select>
-                    <div class="input-group-append"><div class="input-group-text"><span class="fas fa-layer-group"></span></div></div>
-                    <small class="text-danger error-text" id="error-level_id"></small>
-                </div>
-                <div class="input-group mb-3">
                     <input type="text" name="nama" class="form-control" placeholder="Nama Lengkap">
                     <div class="input-group-append"><div class="input-group-text"><span class="fas fa-id-card"></span></div></div>
                     <small class="text-danger error-text" id="error-nama"></small>
@@ -63,13 +53,13 @@
     $(document).ready(function () {
         $("#form-register").validate({
             rules: {
-                level_id: { required: true },
+                // level_id: { required: true },
                 nama: { required: true, maxlength: 100 },
                 username: { required: true, minlength: 4, maxlength: 20 },
                 password: { required: true, minlength: 6 },
                 password_confirmation: { required: true, equalTo: '[name="password"]' }
             },
-            level_id: "Pilih level akun Anda",
+            // level_id: "Pilih level akun Anda",
             messages: {
               username: {
                   required: "Masukkan username",

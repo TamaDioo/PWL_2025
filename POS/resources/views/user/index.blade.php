@@ -89,11 +89,14 @@
                         orderable: true,
                         searchable: true
                     },{
-                        // mengambil data level hasil dari ORM berelasi
+                        // // mengambil data level hasil dari ORM berelasi
                         data: "level.level_nama",
                         className: "",
                         orderable: false,
-                        searchable: false
+                        searchable: false,
+                        render: function(data, type, row) {
+                            return data ? data : 'Belum Disetting';
+                        }
                     },{
                         data: "aksi",
                         className: "",

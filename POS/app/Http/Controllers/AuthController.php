@@ -65,7 +65,6 @@ class AuthController extends Controller
             'username' => 'required|string|min:4|max:20|unique:m_user,username',
             'password' => 'required|string|min:6|confirmed',
             'nama'     => 'required|string|max:100',
-            'level_id' => 'required|exists:m_level,level_id',
         ]);
 
         if ($validator->fails()) {
@@ -81,7 +80,6 @@ class AuthController extends Controller
             'username' => $request->username,
             'password' => Hash::make($request->password),
             'nama'     => $request->nama,
-            'level_id' => $request->level_id
         ]);
 
         return response()->json([
