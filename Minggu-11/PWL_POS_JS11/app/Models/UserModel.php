@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable; // implementasi class Authenticatable
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class UserModel extends Authenticatable implements JWTSubject
 {
@@ -23,7 +24,28 @@ class UserModel extends Authenticatable implements JWTSubject
     protected $table = 'm_user'; //Mendefinisikan nama tabel yang digunakan oleh model ini
     protected $primaryKey = 'user_id'; // Mendefinisikan primary key dari tabel yang digunakan
     use HasFactory;
-    protected $fillable = ['username', 'password', 'nama', 'level_id', 'foto_profile', 'created_at', 'updated_at'];
+    protected $fillable = [
+        'username',
+        'nama',
+        'password',
+        'level_id',
+        'foto_profile',
+        'image', //tambahan
+        'created_at',
+        'updated_at'
+    ];
+
+    public function level(): BelongsTo
+    {
+        return $this->belongsTo(LevelModel::class, 'level_id', 'level_id');
+    }
+
+    protected function image(): Attribute
+    {
+        return Attribute::make(
+            get: fn($image) => url('storage/posts/' . $image),
+        );
+    }
 
     protected $hidden = ['password']; // jangan ditampilkan saat select
 
@@ -33,10 +55,6 @@ class UserModel extends Authenticatable implements JWTSubject
     /**
      * Relasi ke tabel m_level (many-to-one) 
      */
-    public function level(): BelongsTo
-    {
-        return $this->belongsTo(LevelModel::class, 'level_id', 'level_id');
-    }
 
     /**
      * Mendapatkan nama role
